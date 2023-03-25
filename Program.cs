@@ -49,95 +49,28 @@ namespace MJU23v_D10_inl_sveng
                     else if (argument.Length == 1)
                         loadfile(defaultFile);
                 }
-                // FIXME: if dictionary is not loaded catch null exception
+
                 else if (command == "list")
                 {
-                    try
-                    {
-                        foreach (SweEngGloss gloss in dictionary)
-                        {
-                            Console.WriteLine($"{gloss.word_swe,-10}  - {gloss.word_eng,-10}");
-                        }
-                    }
-                    catch (System.NullReferenceException)
-                    {
-                        Console.WriteLine("please load a file first");
-                    }
+                    dictlist();
 
                 }
                 // FIXME: catch if the file is not loaded
                 else if (command == "new")
                 {
-                    if (argument.Length == 3)
-                    {
-                        dictionary.Add(new SweEngGloss(argument[1], argument[2]));
-                    }
-                    else if (argument.Length == 1)
-                    {
-                        Console.WriteLine("Write word in Swedish: ");
-                        string sweWord = Console.ReadLine();
-                        Console.Write("Write word in English: ");
-                        string engWord = Console.ReadLine();
-                        dictionary.Add(new SweEngGloss(sweWord, engWord));
-                    }
-                    else { Console.WriteLine("Type 'new' or 'new /s/ /e/' to add a word to the dictionary"); }
+                    addWords(argument);
                 }
-                
+
 
                 else if (command == "delete")
                 {
-                    try
-                    {
-                        if (argument.Length == 3)
-                        {
-                            int index = -1;
-                            for (int i = 0; i < dictionary.Count; i++)
-                            {
-                                SweEngGloss gloss = dictionary[i];
-                                if (gloss.word_swe == argument[1] && gloss.word_eng == argument[2])
-                                    index = i;
-                            }
-                            dictionary.RemoveAt(index);
-                        }
-                        else if (argument.Length == 1)
-                        {
-                            Console.WriteLine("Write word in Swedish: ");
-                            string sweWord = Console.ReadLine();
-                            Console.Write("Write word in English: ");
-                            string engWord = Console.ReadLine();
-                            int index = -1;
-                            for (int i = 0; i < dictionary.Count; i++)
-                            {
-                                SweEngGloss gloss = dictionary[i];
-                                if (gloss.word_swe == sweWord && gloss.word_eng == engWord)
-                                    index = i;
-                            }
-                            dictionary.RemoveAt(index);
-                        }
-                    }
-                    catch (System.NullReferenceException)
-                    {
-                        Console.WriteLine("please load a file first");
-                    }
-                    catch (System.ArgumentOutOfRangeException)
-                    {
-                        Console.WriteLine("selected words are not in the dictionary");
-                    }
-                   
+                    deleteWord(argument);
+
                 }
                 // FIXME: catch error if the file is not loaded
                 else if (command == "translate")
                 {
-                    if (argument.Length == 2)
-                    {
-                            transword(argument[1]);
-                    }
-                    else if (argument.Length == 1)
-                    {
-                        Console.WriteLine("Write word to be translated: ");
-                        string wordInput = Console.ReadLine();
-                        transword(wordInput);
-                    }
+                    translate(argument);
                 }
 
                 else
@@ -146,6 +79,97 @@ namespace MJU23v_D10_inl_sveng
                 }
             }
             while (true);
+        }
+
+        private static void deleteWord(string[] argument)
+        {
+            try
+            {
+                if (argument.Length == 3)
+                {
+                    int index = -1;
+                    for (int i = 0; i < dictionary.Count; i++)
+                    {
+                        SweEngGloss gloss = dictionary[i];
+                        if (gloss.word_swe == argument[1] && gloss.word_eng == argument[2])
+                            index = i;
+                    }
+                    dictionary.RemoveAt(index);
+                }
+                else if (argument.Length == 1)
+                {
+                    Console.WriteLine("Write word in Swedish: ");
+                    string sweWord = Console.ReadLine();
+                    Console.Write("Write word in English: ");
+                    string engWord = Console.ReadLine();
+                    int index = -1;
+                    for (int i = 0; i < dictionary.Count; i++)
+                    {
+                        SweEngGloss gloss = dictionary[i];
+                        if (gloss.word_swe == sweWord && gloss.word_eng == engWord)
+                            index = i;
+                    }
+                    dictionary.RemoveAt(index);
+                }
+            }
+            catch (System.NullReferenceException)
+            {
+                Console.WriteLine("please load a file first");
+            }
+            catch (System.ArgumentOutOfRangeException)
+            {
+                Console.WriteLine("selected words are not in the dictionary");
+            }
+        }
+
+        private static void translate(string[] argument)
+        {
+            if (argument.Length == 2)
+            {
+                transword(argument[1]);
+            }
+            else if (argument.Length == 1)
+            {
+                Console.WriteLine("Write word to be translated: ");
+                string wordInput = Console.ReadLine();
+                transword(wordInput);
+            }
+        }
+
+        private static void addWords(string[] argument)
+        {
+            try
+            {
+                if (argument.Length == 3)
+                {
+                    dictionary.Add(new SweEngGloss(argument[1], argument[2]));
+                }
+                else if (argument.Length == 1)
+                {
+                    Console.WriteLine("Write word in Swedish: ");
+                    string sweWord = Console.ReadLine();
+                    Console.Write("Write word in English: ");
+                    string engWord = Console.ReadLine();
+                    dictionary.Add(new SweEngGloss(sweWord, engWord));
+                }
+                else { Console.WriteLine("Type 'new' or 'new /s/ /e/' to add a word to the dictionary"); }
+            }
+            catch { Console.WriteLine("please load a file first"); }
+        }
+
+        private static void dictlist()
+        {
+            try
+            {
+                foreach (SweEngGloss gloss in dictionary)
+                {
+                    Console.WriteLine($"{gloss.word_swe,-10}  - {gloss.word_eng,-10}");
+                }
+            }
+            catch (System.NullReferenceException)
+            {
+                Console.WriteLine("please load a file first");
+            }
         }
 
         private static void loadfile(string FilePath)
