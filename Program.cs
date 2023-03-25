@@ -19,10 +19,8 @@ namespace MJU23v_D10_inl_sveng
                 this.word_swe = words[0]; this.word_eng = words[1];
             }
         }
-        // FIXME: if two arguments occur and the file can not be found catch exception
         static void Main(string[] args)
         {
-            string defaultFile = "..\\..\\..\\dict\\sweeng.lis";
             Console.WriteLine("Welcome to the dictionary app!\nType 'help' for help!");
             do
             {
@@ -40,14 +38,7 @@ namespace MJU23v_D10_inl_sveng
                 }
                 else if (command == "load")
                 {
-                    if (argument.Length == 2)
-                    {
-                        string dictpath = "..\\..\\..\\dict\\";
-                        string fullpath = dictpath + argument[1];
-                        loadfile(fullpath);
-                    }
-                    else if (argument.Length == 1)
-                        loadfile(defaultFile);
+                    LoadFile(argument);
                 }
 
                 else if (command == "list")
@@ -79,6 +70,19 @@ namespace MJU23v_D10_inl_sveng
                 }
             }
             while (true);
+        }
+
+        private static void LoadFile(string[] argument)
+        {
+            string defaultFile = "..\\..\\..\\dict\\sweeng.lis";
+            if (argument.Length == 2)
+            {
+                string dictpath = "..\\..\\..\\dict\\";
+                string fullpath = dictpath + argument[1];
+                getFile(fullpath);
+            }
+            else if (argument.Length == 1)
+                getFile(defaultFile);
         }
 
         private static void deleteWord(string[] argument)
@@ -172,7 +176,7 @@ namespace MJU23v_D10_inl_sveng
             }
         }
 
-        private static void loadfile(string FilePath)
+        private static void getFile(string FilePath)
         {
             try
             {
