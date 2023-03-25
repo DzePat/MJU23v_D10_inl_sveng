@@ -31,6 +31,7 @@ namespace MJU23v_D10_inl_sveng
                 if (command == "quit")
                 {
                     Console.WriteLine("Goodbye!");
+                    break;
                 }
                 else if (command == "help")
                 {
