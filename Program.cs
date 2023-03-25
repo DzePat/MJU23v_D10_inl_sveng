@@ -46,7 +46,6 @@ namespace MJU23v_D10_inl_sveng
                     dictlist();
 
                 }
-                // FIXME: catch if the file is not loaded
                 else if (command == "new")
                 {
                     addWords(argument);
@@ -58,7 +57,6 @@ namespace MJU23v_D10_inl_sveng
                     deleteWord(argument);
 
                 }
-                // FIXME: catch error if the file is not loaded
                 else if (command == "translate")
                 {
                     translate(argument);
@@ -128,16 +126,19 @@ namespace MJU23v_D10_inl_sveng
 
         private static void translate(string[] argument)
         {
-            if (argument.Length == 2)
+            try
             {
-                transword(argument[1]);
-            }
-            else if (argument.Length == 1)
-            {
-                Console.WriteLine("Write word to be translated: ");
-                string wordInput = Console.ReadLine();
-                transword(wordInput);
-            }
+                if (argument.Length == 2)
+                {
+                    transword(argument[1]);
+                }
+                else if (argument.Length == 1)
+                {
+                    Console.WriteLine("Write word to be translated: ");
+                    string wordInput = Console.ReadLine();
+                    transword(wordInput);
+                }
+            }catch (System.NullReferenceException) { Console.WriteLine("please load a file"); }
         }
 
         private static void addWords(string[] argument)
@@ -158,7 +159,7 @@ namespace MJU23v_D10_inl_sveng
                 }
                 else { Console.WriteLine("Type 'new' or 'new /s/ /e/' to add a word to the dictionary"); }
             }
-            catch { Console.WriteLine("please load a file first"); }
+            catch (System.NullReferenceException) { Console.WriteLine("please load a file"); }
         }
 
         private static void dictlist()
