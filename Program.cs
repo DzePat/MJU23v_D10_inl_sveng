@@ -196,8 +196,9 @@ namespace MJU23v_D10_inl_sveng
             }
             catch (System.IO.FileNotFoundException)
             {
-                Console.WriteLine("could not find the file");
+                Console.WriteLine("Could not find the file");
             }
+            catch(System.IO.DirectoryNotFoundException) { Console.WriteLine("enter a file name"); }
         }
 
         private static void transword(string word)
