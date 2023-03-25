@@ -21,7 +21,7 @@
         static void Main(string[] args)
         {
             string defaultFile = "..\\..\\..\\dict\\sweeng.lis";
-            Console.WriteLine("Welcome to the dictionary app!");
+            Console.WriteLine("Welcome to the dictionary app!\n type 'help' for help!");
             do
             {
                 Console.Write("> ");
@@ -30,6 +30,10 @@
                 if (command == "quit")
                 {
                     Console.WriteLine("Goodbye!");
+                }
+                else if(command == "help")
+                {
+                    help();
                 }
                 else if (command == "load")
                 {
@@ -49,7 +53,7 @@
                     }
                     else if(argument.Length == 1)
                     {
-                        using (StreamReader sr = new StreamReader("test.txt"))
+                        using (StreamReader sr = new StreamReader(defaultFile))
                         {
                             dictionary = new List<SweEngGloss>(); // Empty it!
                             string line = sr.ReadLine();
@@ -151,5 +155,21 @@
             while (true);
         }
         //TODO: add help command to navigate the program easier
+
+        public static void help()
+        {
+            Console.WriteLine("Available Commands: ");
+            Console.WriteLine("  load           - load a list from the file sweeng.lis");
+            Console.WriteLine("  load /file/    - load a list from the /file/");
+            Console.WriteLine("  list           - list all the words in the dictionary");
+            Console.WriteLine("  new            - Create new translation");
+            Console.WriteLine("  new /s/ /e/    - Create new translation /swedish/ /english/ ");
+            Console.WriteLine("  translate      - translate a word from swedish to english or english to swedish");
+            Console.WriteLine("  translate /w/  - translate selected word to english or swedish depending on the word");
+            Console.WriteLine("  delete         - delete a selected words from the dictionary");
+            Console.WriteLine("  delete /s/ /e/ - delete swedish english word from the dictionary");
+            Console.WriteLine("  quit           - quit the program");
+            Console.WriteLine();
+        }
     }
 }
