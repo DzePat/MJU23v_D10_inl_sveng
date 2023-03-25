@@ -16,12 +16,12 @@
                 this.word_swe = words[0]; this.word_eng = words[1];
             }
         }
-        //FIXME: if two arguments occur and the file can not be found catch exception
-        //TODO: add remove doubles in load to make the code look cleaner
+        // FIXME: if two arguments occur and the file can not be found catch exception
+        // TODO: add remove doubles in load to make the code look cleaner
         static void Main(string[] args)
         {
             string defaultFile = "..\\..\\..\\dict\\sweeng.lis";
-            Console.WriteLine("Welcome to the dictionary app!\n type 'help' for help!");
+            Console.WriteLine("Welcome to the dictionary app!\nType 'help' for help!");
             do
             {
                 Console.Write("> ");
@@ -66,7 +66,7 @@
                         }
                     }
                 }
-                //FIXME: if dictionary is not loaded catch null exception
+                // FIXME: if dictionary is not loaded catch null exception
                 else if (command == "list")
                 {
                     foreach(SweEngGloss gloss in dictionary)
@@ -74,8 +74,8 @@
                         Console.WriteLine($"{gloss.word_swe,-10}  - {gloss.word_eng,-10}");
                     }
                 }
-                //TODO: if arguments only 2 give a proper message
-                //FIXME: catch if the file is not loaded
+                // TODO: if arguments only 2 give a proper message
+                // FIXME: catch if the file is not loaded
                 else if (command == "new")
                 {
                     if (argument.Length == 3)
@@ -91,7 +91,7 @@
                         dictionary.Add(new SweEngGloss(s, e));
                     }
                 }
-                //FIXME: if the word does not exist try catch  null exception exception
+                // FIXME: if the word does not exist try catch  null exception exception
                 else if (command == "delete")
                 {
                     if (argument.Length == 3)
@@ -120,31 +120,18 @@
                         dictionary.RemoveAt(index);
                     }
                 }
-                //FIXME: catch error if the file is not loaded
-                //TODO: fix doubles
+                // FIXME: catch error if the file is not loaded
                 else if (command == "translate")
                 {
                     if (argument.Length == 2)
                     {
-                        foreach(SweEngGloss gloss in dictionary)
-                        {
-                            if (gloss.word_swe == argument[1])
-                                Console.WriteLine($"English for {gloss.word_swe} is {gloss.word_eng}");
-                            if (gloss.word_eng == argument[1])
-                                Console.WriteLine($"Swedish for {gloss.word_eng} is {gloss.word_swe}");
-                        }
+                            transword(argument[1]);
                     }
                     else if (argument.Length == 1)
                     {
                         Console.WriteLine("Write word to be translated: ");
                         string s = Console.ReadLine();
-                        foreach (SweEngGloss gloss in dictionary)
-                        {
-                            if (gloss.word_swe == s)
-                                Console.WriteLine($"English for {gloss.word_swe} is {gloss.word_eng}");
-                            if (gloss.word_eng == s)
-                                Console.WriteLine($"Swedish for {gloss.word_eng} is {gloss.word_swe}");
-                        }
+                        transword(s);
                     }
                 }
                 else
@@ -154,7 +141,23 @@
             }
             while (true);
         }
-        //TODO: add help command to navigate the program easier
+
+        private static void transword(string s)
+        {
+            foreach (SweEngGloss gloss in dictionary)
+            {
+                if (gloss.word_swe == s)
+                {
+                    Console.WriteLine($"English for {gloss.word_swe} is {gloss.word_eng}");
+                    break;
+                }
+                if (gloss.word_eng == s)
+                {
+                    Console.WriteLine($"Swedish for {gloss.word_eng} is {gloss.word_swe}");
+                    break;
+                }
+            }
+        }
 
         public static void help()
         {
