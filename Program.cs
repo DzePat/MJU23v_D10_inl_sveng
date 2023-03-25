@@ -90,6 +90,7 @@
                         string e = Console.ReadLine();
                         dictionary.Add(new SweEngGloss(s, e));
                     }
+                    else { Console.WriteLine("Type 'new' or 'new /s/ /e/' to add a word to the dictionary"); }
                 }
                 // FIXME: if the word does not exist try catch  null exception exception
                 else if (command == "delete")
