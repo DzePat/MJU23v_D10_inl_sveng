@@ -17,7 +17,6 @@
             }
         }
         // FIXME: if two arguments occur and the file can not be found catch exception
-        // TODO: add remove doubles in load to make the code look cleaner
         static void Main(string[] args)
         {
             string defaultFile = "..\\..\\..\\dict\\sweeng.lis";
@@ -62,15 +61,14 @@
                     else if(argument.Length == 1)
                     {
                         Console.WriteLine("Write word in Swedish: ");
-                        string s = Console.ReadLine();
+                        string sweWord = Console.ReadLine();
                         Console.Write("Write word in English: ");
-                        string e = Console.ReadLine();
-                        dictionary.Add(new SweEngGloss(s, e));
+                        string engWord = Console.ReadLine();
+                        dictionary.Add(new SweEngGloss(sweWord, engWord));
                     }
                     else { Console.WriteLine("Type 'new' or 'new /s/ /e/' to add a word to the dictionary"); }
                 }
                 // FIXME: if the word does not exist try catch  null exception exception
-                // CLEANUP: change string s and string e to a more understandable name
                 else if (command == "delete")
                 {
                     if (argument.Length == 3)
@@ -86,14 +84,14 @@
                     else if (argument.Length == 1)
                     {
                         Console.WriteLine("Write word in Swedish: ");
-                        string s = Console.ReadLine();
+                        string sweWord = Console.ReadLine();
                         Console.Write("Write word in English: ");
-                        string e = Console.ReadLine();
+                        string engWord = Console.ReadLine();
                         int index = -1;
                         for (int i = 0; i < dictionary.Count; i++)
                         {
                             SweEngGloss gloss = dictionary[i];
-                            if (gloss.word_swe == s && gloss.word_eng == e)
+                            if (gloss.word_swe == sweWord && gloss.word_eng == engWord)
                                 index = i;
                         }
                         dictionary.RemoveAt(index);
@@ -110,8 +108,8 @@
                     else if (argument.Length == 1)
                     {
                         Console.WriteLine("Write word to be translated: ");
-                        string s = Console.ReadLine();
-                        transword(s);
+                        string wordInput = Console.ReadLine();
+                        transword(wordInput);
                     }
                 }
 
@@ -123,9 +121,9 @@
             while (true);
         }
 
-        private static void loadfile(string defaultFile)
+        private static void loadfile(string FilePath)
         {
-            using (StreamReader sr = new StreamReader(defaultFile))
+            using (StreamReader sr = new StreamReader(FilePath))
             {
                 dictionary = new List<SweEngGloss>(); // Empty it!
                 string line = sr.ReadLine();
@@ -138,16 +136,16 @@
             }
         }
 
-        private static void transword(string s)
+        private static void transword(string word)
         {
             foreach (SweEngGloss gloss in dictionary)
             {
-                if (gloss.word_swe == s)
+                if (gloss.word_swe == word)
                 {
                     Console.WriteLine($"English for {gloss.word_swe} is {gloss.word_eng}");
                     break;
                 }
-                if (gloss.word_eng == s)
+                if (gloss.word_eng == word)
                 {
                     Console.WriteLine($"Swedish for {gloss.word_eng} is {gloss.word_swe}");
                     break;
