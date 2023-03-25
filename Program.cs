@@ -37,34 +37,12 @@
                 }
                 else if (command == "load")
                 {
-                    if(argument.Length == 2)
+                    if (argument.Length == 2)
                     {
-                        using (StreamReader sr = new StreamReader(argument[1]))
-                        {
-                            dictionary = new List<SweEngGloss>(); // Empty it!
-                            string line = sr.ReadLine();
-                            while (line != null)
-                            {
-                                SweEngGloss gloss = new SweEngGloss(line);
-                                dictionary.Add(gloss);
-                                line = sr.ReadLine();
-                            }
-                        }
+                        loadfile(argument[1]);
                     }
-                    else if(argument.Length == 1)
-                    {
-                        using (StreamReader sr = new StreamReader(defaultFile))
-                        {
-                            dictionary = new List<SweEngGloss>(); // Empty it!
-                            string line = sr.ReadLine();
-                            while (line != null)
-                            {
-                                SweEngGloss gloss = new SweEngGloss(line);
-                                dictionary.Add(gloss);
-                                line = sr.ReadLine();
-                            }
-                        }
-                    }
+                    else if (argument.Length == 1)
+                        loadfile(defaultFile);
                 }
                 // FIXME: if dictionary is not loaded catch null exception
                 else if (command == "list")
@@ -74,7 +52,6 @@
                         Console.WriteLine($"{gloss.word_swe,-10}  - {gloss.word_eng,-10}");
                     }
                 }
-                // TODO: if arguments only 2 give a proper message
                 // FIXME: catch if the file is not loaded
                 else if (command == "new")
                 {
@@ -93,6 +70,7 @@
                     else { Console.WriteLine("Type 'new' or 'new /s/ /e/' to add a word to the dictionary"); }
                 }
                 // FIXME: if the word does not exist try catch  null exception exception
+                // CLEANUP: change string s and string e to a more understandable name
                 else if (command == "delete")
                 {
                     if (argument.Length == 3)
@@ -121,6 +99,7 @@
                         dictionary.RemoveAt(index);
                     }
                 }
+                //CLEANUP: rename string s input to make it more understandable
                 // FIXME: catch error if the file is not loaded
                 else if (command == "translate")
                 {
@@ -135,12 +114,28 @@
                         transword(s);
                     }
                 }
+
                 else
                 {
                     Console.WriteLine($"Unknown command: '{command}'");
                 }
             }
             while (true);
+        }
+
+        private static void loadfile(string defaultFile)
+        {
+            using (StreamReader sr = new StreamReader(defaultFile))
+            {
+                dictionary = new List<SweEngGloss>(); // Empty it!
+                string line = sr.ReadLine();
+                while (line != null)
+                {
+                    SweEngGloss gloss = new SweEngGloss(line);
+                    dictionary.Add(gloss);
+                    line = sr.ReadLine();
+                }
+            }
         }
 
         private static void transword(string s)
