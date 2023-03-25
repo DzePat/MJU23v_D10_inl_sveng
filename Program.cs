@@ -114,6 +114,7 @@ namespace MJU23v_D10_inl_sveng
                     }
                     dictionary.RemoveAt(index);
                 }
+                else { Console.WriteLine("please type delete or delete /s/ /e/ to delte a word"); }
             }
             catch (System.NullReferenceException)
             {
