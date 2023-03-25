@@ -16,6 +16,8 @@
                 this.word_swe = words[0]; this.word_eng = words[1];
             }
         }
+        //FIXME: if two arguments occur and the file can not be found catch exception
+        //TODO: add remove doubles in load to make the code look cleaner
         static void Main(string[] args)
         {
             string defaultFile = "..\\..\\..\\dict\\sweeng.lis";
@@ -47,7 +49,7 @@
                     }
                     else if(argument.Length == 1)
                     {
-                        using (StreamReader sr = new StreamReader(defaultFile))
+                        using (StreamReader sr = new StreamReader("test.txt"))
                         {
                             dictionary = new List<SweEngGloss>(); // Empty it!
                             string line = sr.ReadLine();
@@ -60,6 +62,7 @@
                         }
                     }
                 }
+                //FIXME: if dictionary is not loaded catch null exception
                 else if (command == "list")
                 {
                     foreach(SweEngGloss gloss in dictionary)
@@ -67,6 +70,8 @@
                         Console.WriteLine($"{gloss.word_swe,-10}  - {gloss.word_eng,-10}");
                     }
                 }
+                //TODO: if arguments only 2 give a proper message
+                //FIXME: catch if the file is not loaded
                 else if (command == "new")
                 {
                     if (argument.Length == 3)
@@ -82,6 +87,7 @@
                         dictionary.Add(new SweEngGloss(s, e));
                     }
                 }
+                //FIXME: if the word does not exist try catch  null exception exception
                 else if (command == "delete")
                 {
                     if (argument.Length == 3)
@@ -110,6 +116,8 @@
                         dictionary.RemoveAt(index);
                     }
                 }
+                //FIXME: catch error if the file is not loaded
+                //TODO: fix doubles
                 else if (command == "translate")
                 {
                     if (argument.Length == 2)
@@ -142,5 +150,6 @@
             }
             while (true);
         }
+        //TODO: add help command to navigate the program easier
     }
 }
