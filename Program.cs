@@ -50,9 +50,16 @@ namespace MJU23v_D10_inl_sveng
                 // FIXME: if dictionary is not loaded catch null exception
                 else if (command == "list")
                 {
-                    foreach (SweEngGloss gloss in dictionary)
+                    try
                     {
-                        Console.WriteLine($"{gloss.word_swe,-10}  - {gloss.word_eng,-10}");
+                        foreach (SweEngGloss gloss in dictionary)
+                        {
+                            Console.WriteLine($"{gloss.word_swe,-10}  - {gloss.word_eng,-10}");
+                        }
+                    }
+                    catch (System.NullReferenceException)
+                    {
+                        Console.WriteLine("please load a file first");
                     }
 
                 }
@@ -73,7 +80,8 @@ namespace MJU23v_D10_inl_sveng
                     }
                     else { Console.WriteLine("Type 'new' or 'new /s/ /e/' to add a word to the dictionary"); }
                 }
-                // FIXME: if the word does not exist try catch  null exception exception
+                
+
                 else if (command == "delete")
                 {
                     try
@@ -140,16 +148,23 @@ namespace MJU23v_D10_inl_sveng
 
         private static void loadfile(string FilePath)
         {
-            using (StreamReader sr = new StreamReader(FilePath))
+            try
             {
-                dictionary = new List<SweEngGloss>(); // Empty it!
-                string line = sr.ReadLine();
-                while (line != null)
+                using (StreamReader sr = new StreamReader(FilePath))
                 {
-                    SweEngGloss gloss = new SweEngGloss(line);
-                    dictionary.Add(gloss);
-                    line = sr.ReadLine();
+                    dictionary = new List<SweEngGloss>(); // Empty it!
+                    string line = sr.ReadLine();
+                    while (line != null)
+                    {
+                        SweEngGloss gloss = new SweEngGloss(line);
+                        dictionary.Add(gloss);
+                        line = sr.ReadLine();
+                    }
                 }
+            }
+            catch (System.IO.FileNotFoundException)
+            {
+                Console.WriteLine("could not find the file");
             }
         }
 
