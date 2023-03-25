@@ -42,7 +42,9 @@ namespace MJU23v_D10_inl_sveng
                 {
                     if (argument.Length == 2)
                     {
-                        loadfile(argument[1]);
+                        string dictpath = "..\\..\\..\\dict\\";
+                        string fullpath = dictpath + argument[1];
+                        loadfile(fullpath);
                     }
                     else if (argument.Length == 1)
                         loadfile(defaultFile);
